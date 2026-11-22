@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Ilha Royale 3D - Projeto organizado</title>
+<link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+
+<div id="start"><div id="card">
+  <div id="lobbyHeader"><div><div id="lobbyKicker">CENTRAL DE EXPLORAÇÃO • TEMPORADA 01</div><h1>ILHA ROYALE <span style="color:#fbd38d">3D</span></h1><p style="margin:5px 0 0">Escolha seu explorador, selecione uma região e prepare-se para descobrir a ilha.</p></div><div id="lobbyBadge">MUNDO ABERTO 3D</div></div>
+  <div id="lobbyLayout"><div id="lobbyLeft">
+    <div id="skinPreview" title="Arraste para girar o personagem"><canvas id="lobbyPreviewCanvas"></canvas><div id="lobbyNameplate"><div><div id="skinName">VALKYRIE</div><div id="skinTag">Recon Esmeralda · Armadura Leve</div></div><div id="lobbyBadge">PERSONAGEM</div></div></div>
+    <div id="lobbyStats"><div class="lobbyStat"><b id="statWins">0</b><span>VITÓRIAS</span></div><div class="lobbyStat"><b id="statKills">0</b><span>ABATES</span></div><div class="lobbyStat"><b id="statMatches">0</b><span>PARTIDAS</span></div></div>
+  </div><div id="lobbyRight">
+    <div class="lobbyLabel">01 / SEU EXPLORADOR</div><select id="skinChoice">
+      <option value="0">Valkyrie — Esmeralda</option><option value="1">Nova — Ciano Cyber</option><option value="2">Apex — Azul Vanguarda</option><option value="3">Titan — Dourado</option><option value="4">Phantom — Grafite</option><option value="5">Aurora — Violeta</option>
+    </select>
+    <div class="lobbyLabel">02 / ESCOLHA A REGIÃO</div><select id="mapChoice"><option value="island">🌿 Ilha original</option><option value="desert">🏜️ Deserto dos Fósseis</option><option value="snow">❄️ Montanhas Nevadas</option><option value="volcano">🌋 Vale Vulcânico</option><option value="city">🏙️ Cidade Abandonada</option></select>
+    <div id="mapDescription">Ilha verde com casas, estrada e floresta.</div>
+    <div id="lobbyButtons"><button id="skinPrev">◀ ANTERIOR</button><button id="skinNext">PRÓXIMO ▶</button></div>
+    <button id="play">EXPLORAR AGORA</button>
+    <div id="lobbyTip">Dica: arraste para girar o personagem. Modelo humano 3D articulado, com rosto, cabelo, roupas detalhadas e animação de espera.</div>
+  </div></div>
+</div></div>
+<!-- Mira Telescópica Sniper -->
+<div id="sniperScope">
+  <div class="scope-lens">
+    <div class="ret-h-l"></div><div class="ret-h-r"></div>
+    <div class="ret-v-t"></div><div class="ret-v-b"></div>
+    <div class="ret-hair-h"></div><div class="ret-hair-v"></div>
+    <div class="ret-dot"></div>
+    <div class="mil-dot" style="top:50%;left:32%"></div>
+    <div class="mil-dot" style="top:50%;left:38%"></div>
+    <div class="mil-dot" style="top:50%;left:44%"></div>
+    <div class="mil-dot" style="top:50%;left:56%"></div>
+    <div class="mil-dot" style="top:50%;left:62%"></div>
+    <div class="mil-dot" style="top:50%;left:68%"></div>
+    <div class="mil-dot" style="left:50%;top:56%"></div>
+    <div class="mil-dot" style="left:50%;top:62%"></div>
+    <div class="mil-dot" style="left:50%;top:68%"></div>
+    <div class="scope-info" style="top:15%;left:50%;transform:translateX(-50%)">OPTIC 8.0X // BALÍSTICA</div>
+    <div id="scopeDist" class="scope-info" style="bottom:17%;left:22%">DIST: --- M</div>
+    <div class="scope-info" style="bottom:17%;right:22%">ZERO: 100M</div>
+  </div>
+</div>
+
+<!-- Barra de Cura (Segurar B) -->
+<div id="healOverlay">
+  <div style="font-size:12px;font-weight:900;color:#6ee7b7">🩹 APLICANDO KIT MÉDICO...</div>
+  <div id="healBarWrap"><div id="healBarFill"></div></div>
+</div>
+
+<div id="hitmarker"><span></span><span></span><span></span><span></span></div>
+<div id="damageFlash"></div>
+<div id="speedLines"></div>
+<div id="lockHint">🖱️ Clique na tela ou mova o mouse para girar a câmera</div>
+
+<div id="hud">
+  <div id="top">
+    <div class="panel">
+      <b>VIDA</b>
+      <div id="health"><div id="healthFill"></div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+        <small id="hpText">100 / 100</small>
+        <span id="medkitBadge">Kit Médico: 0/1</span>
+      <div id="stamina"><div id="staminaFill"></div></div><div id="staminaLabel"><span>ENERGIA</span><b id="staminaText">100%</b></div>
+      </div>
+    </div>
+    <div id="stats" class="panel">
+      <span>🤖 Vivos: <b id="bots">10</b></span>
+      <span>🎯 Abates: <b id="kills">0</b></span>
+      <span>🔫 <b id="weaponName">Sem arma</b> · <b id="ammo">0</b></span>
+    </div>
+    <div class="panel">⏱ <b id="time">00:00</b></div>
+  </div>
+</div>
+  <div id="crosshair"></div>
+  <div id="gasWarning">☣ GÁS TÓXICO — VOLTE PARA A ZONA SEGURA!</div>
+  <div id="message"></div>
+  <div id="pickupMsg"></div>
+  <div id="dropHint"></div>
+  <div id="parkourHint">PARKOUR!</div>
+  <div id="inventory" class="panel"><b>MOCHILA · TAB</b><div id="slots"></div><small>Q ou 1/2 trocar arma · B curar</small></div>
+  <canvas id="mini" width="184" height="184"></canvas>
+  <button id="pickup">PEGAR ITEM [E]</button>
+  <div id="help" class="panel">WASD: mover · Mouse: câmera · Clique Esq: atirar · Clique Dir: Mira Sniper · Segurar B (2s): curar · V: 1ª/3ª pessoa · E: pegar item/porta · G: gel</div>
+  <button id="restart">INICIAR OUTRA PARTIDA</button>
+  <button id="revive">REVIVER</button>
+</div>
+
+<div id="mobile">
+  <div id="stick" class="pad"><div class="knob"></div></div>
+  <div id="look" class="pad"><div class="knob"></div></div>
+  <button id="jump">PULAR</button>
+  <button id="sprintTouch">CORRER</button>
+  <button id="aimToggle">MIRA</button>
+  <button id="healBtn">CURAR [B]</button>
+  <button id="crouch">AGACHAR</button>
+  <button id="gel">GEL</button>
+  <button id="fire">ATIRAR</button>
+  <button id="viewToggle">1ª PESSOA</button>
+</div>
+<button id="quickToggle" aria-label="Abrir menu">☰</button>
+<div id="quickPanel">
+  <button id="fullScreenBtn">TELA CHEIA</button>
+  <button id="hudBtn">OCULTAR HUD</button>
+  <button id="resumeBtn">VOLTAR AO JOGO</button>
+</div>
+
+<script>
+// Mensagem de erro legível no próprio jogo, para não deixar falhas silenciosas.
+window.addEventListener('error', (event) => {
+  const message = document.getElementById('runtimeError');
+  if (message) { message.style.display='block'; message.textContent='Falha no jogo: ' + (event.message || 'erro de execução'); }
+});
+window.addEventListener('unhandledrejection', (event) => {
+  const message = document.getElementById('runtimeError');
+  if (message) { message.style.display='block'; message.textContent='Falha ao carregar: ' + String(event.reason || 'erro desconhecido'); }
+});
+</script>
+<div id="runtimeError" style="display:none;position:fixed;left:10px;right:10px;top:10px;z-index:99999;padding:12px;border-radius:10px;background:#7f1d1d;color:white;font:13px system-ui;white-space:normal;overflow-wrap:anywhere"></div>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+<script type="module" src="scripts/game.js"></script>
+</body>
+</html>
+
